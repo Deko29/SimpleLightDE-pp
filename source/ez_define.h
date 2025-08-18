@@ -77,6 +77,10 @@
 #define assress_SD_B 22
 #define assress_toggle_reset 23
 #define assress_toggle_backup 24
+#define assress_boot_option 25
+#define assress_emu_exited 26
+#define assress_operation_type 27
+#define assress_toggle_bold 28
 
 #define assress_saveMODE 64
 #define assress_max 65

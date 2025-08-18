@@ -48,6 +48,7 @@ extern u16 gl_reset_on;
 extern u16 gl_rts_on;
 extern u16 gl_sleep_on;
 extern u16 gl_cheat_on;
+extern u16 gl_toggle_bold;
 
 extern u16 gl_color_selected;
 extern u16 gl_color_text;
@@ -66,5 +67,7 @@ void delay(u32 R0);
 u32 LoadRTSfile(TCHAR *filename);
 void ShowTime(u32 page_num ,u32 page_mode);
 u8 NOR_list_MENU(u32 show_offset,	u32 file_select);
+void Boot_NOR_game(u32 show_offset,	u32 file_select,u32 key_L);
 u8 SD_list_MENU(u32 show_offset,	u32 file_select,u32 play_re);
+u8 Boot_SD_game(TCHAR *pfilename, u8 MENU_line, u8 is_EMU, u8 Save_num, u8 old_Save_num);
 //#endif

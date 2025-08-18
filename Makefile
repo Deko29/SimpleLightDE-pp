@@ -20,7 +20,7 @@ include $(DEVKITARM)/gba_rules
 # the makefile is found
 #
 #---------------------------------------------------------------------------------
-TARGET		:= $(notdir $(CURDIR))
+TARGET		:= ezkernelnew
 BUILD		:= build
 SOURCES		:= source source/ff15
 INCLUDES	:= include source/ff15 images
@@ -67,6 +67,7 @@ ifneq ($(BUILD),$(notdir $(CURDIR)))
 #---------------------------------------------------------------------------------
 
 export OUTPUT	:=	$(CURDIR)/$(TARGET)
+export KERNEL   :=  $(CURDIR)/ezkernelnew.bin
 
 export VPATH	:=	$(foreach dir,$(SOURCES),$(CURDIR)/$(dir)) \
 			$(foreach dir,$(DATA),$(CURDIR)/$(dir)) \
@@ -118,11 +119,12 @@ export LIBPATHS	:=	$(foreach dir,$(LIBDIRS),-L$(dir)/lib)
 $(BUILD):
 	@[ -d $@ ] || mkdir -p $@
 	@$(MAKE)  BUILDDIR=`cd $(BUILD) && pwd`  --no-print-directory -C $(BUILD) -f $(CURDIR)/Makefile
+	@rm -fr $(BUILD) $(TARGET).elf $(TARGET).gba
 
 #---------------------------------------------------------------------------------
 clean:
 	@echo clean ...
-	@rm -fr $(BUILD) $(TARGET).elf $(TARGET).gba
+	@rm -fr $(BUILD) $(TARGET).elf $(TARGET).bin
 
 
 #---------------------------------------------------------------------------------
@@ -132,7 +134,12 @@ else
 # main targets
 #---------------------------------------------------------------------------------
 
-$(OUTPUT).gba	:	$(OUTPUT).elf
+$(KERNEL)    :   $(OUTPUT).gba
+	@cp $(OUTPUT).gba $(KERNEL)
+	@echo built ... ezkernelnew.bin
+	@rm $(OUTPUT).gba
+
+$(OUTPUT)gba:	$(OUTPUT).elf
 
 $(OUTPUT).elf	:	$(OFILES)
 

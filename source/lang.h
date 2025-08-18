@@ -9,8 +9,10 @@ extern char* gl_file_overflow;
 
 extern char* gl_theme_credit;
 extern char* gl_theme_credit2;
+extern char* gl_theme_credit3;
 
 extern char* gl_menu_btn;
+extern char* gl_menu_close;
 extern char* gl_lastest_game;
 
 extern char* gl_writing;
@@ -108,6 +110,7 @@ extern char* gl_file_noexist;
 
 extern char**  	gl_rom_menu;
 extern char**   gl_nor_op;
+extern char**   gl_more_options;
 
 extern char* gl_enabled;
 extern char* gl_disabled;

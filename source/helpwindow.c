@@ -20,8 +20,8 @@ void Show_ver(void)
 	char msg[20];
 	char *ver="K:1.05";
 	u16 FPGAver = Read_FPGA_ver();
-	sprintf(msg,"FW:%d %s",FPGAver&0xFF,ver);
-	DrawHZText12(msg,0,160,3, gl_color_text,1);	
+	sprintf(msg,"%s FW:%d",ver, FPGAver&0xFF);
+	DrawHZText12(msg, 0, 240 - 66 - 3,3, gl_color_text,1);	
 }
 //---------------------------------------------------------------------------------
 void Show_help_window()
@@ -46,11 +46,16 @@ void Show_help_window()
 		
 	DrawHZText12("L+Start:",0,3,65, gl_color_selected,1);
 		DrawHZText12(gl_LSTART_help,0,52,65, gl_color_text,1);	
+
+	DrawHZText12("HOLD L :",0,3,80, gl_color_selected,1);
+    DrawHZText12("Switch boot between",0,52,80, gl_color_text,1);
+    DrawHZText12("MENU / NOR / LAST",0,52,90, gl_color_text,1);
 		
-	DrawHZText12(gl_online_manual,0,240-70-7,77, gl_color_text,1);
+	//DrawHZText12(gl_online_manual,0,240-70-7,77, gl_color_text,1);
 
 	DrawHZText12(gl_theme_credit, 0, 4, 105, gl_color_selected, 1);
 	DrawHZText12(gl_theme_credit2, 0, 4, 120, gl_color_selected, 1);
+	DrawHZText12(gl_theme_credit3, 0, 4, 135, gl_color_selected, 1);
 	while(1)
 	{
 		VBlankIntrWait(); 	
