@@ -1,7 +1,39 @@
-###### FORKED FROM https://github.com/ez-flash/omega-de-kernel
+###### FORKED FROM https://github.com/Sterophonick/omega-de-kernel
 
-# SimpleLight for EZ Flash Omega Definitive Edition
-###### *If you're looking for SimpleLight for the **original** EZ Flash Omega, check here: https://github.com/Sterophonick/SimpleLight*
+# SimpleLightDE++ (EZ Flash Omega Definitive Edition)
+###### *If you're looking for SimpleLight++ for the **original** EZ Flash Omega, check here: https://github.com/Deko29/SimpleLight-pp*
+
+This is SimpleLightDE++, a small Fork of the SimpleLightDE CFW aimed to introduce new QoL features and to fix various bugs.
+
+Huge thank you to all authors of the original FW and the SimpleLightDE CFW, without you this project wouldn't be possible!
+
+## New Features
+- New Boot Options:
+  
+  - MENU: Standard booting behavior. If L is pressed, boot into the first NOR game
+  - NOR: Boot into first NOR game. If L is pressed, boot into the EZ-Menu
+  - LAST: Boot into your last recent game/software (also takes NOR Games into account). If L is pressed, boot into the EZ-Menu
+    
+- Overhauled Settings and re-added the extra Settings window! Extra Settings can be opened with SELECT and are now controllable via arrow and L/R keys
+
+## Bug Fixes:
+* Cursor of file explorer will not reset anymore when opening expanded settings via SELECT
+* The Save backup folder is correctly initialized if it does not exist
+* Restored old extra settings window
+* Various other minor tweeks
+
+## Known Issues
+* Chinese Language Option is broken
+
+## Notes
+* DO NOT alter the "RECENT.TXT" file! This is used for the "LAST" boot option and can otherwise lead to undefined behaviour
+* DO NOT create a folder/file called "NOR" on root level! This is only checked when having OPERATION_TYPE set to SAFE because of performance reasons and can otherwise lead to undefined behaviour
+
+If you have any feature requests or issues, please let me know :)
+
+# Original ReadMe...
+
+###### FORKED FROM https://github.com/ez-flash/omega-de-kernel
 
 Hello all!
 
