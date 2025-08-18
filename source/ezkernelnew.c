@@ -1236,7 +1236,7 @@ u32  get_count(void)
 	return count;
 }
 //---------------------------------------------------------------------------------
-u32 show_recently_play(void)
+u32 show_recently_play(u32 start_id)
 {
 	//u32 res;
 	u32 all_count=0;
@@ -1249,6 +1249,7 @@ u32 show_recently_play(void)
 	DrawHZText12(gl_recently_play,0,(240-strlen(gl_recently_play)*6)/2,4, gl_color_text,1);//TITLE
 	
 	all_count = get_count();	
+	Select = start_id < all_count ? start_id : 0;
 	if(all_count)
 	{				
 		setRepeat(15,1);		
@@ -3189,9 +3190,10 @@ re_showfile:
 						}				
 					}
 				}
-				if (!key_L){//only START //Recently played		
-reshow_recent_play:					
-					play_re=show_recently_play();
+				if (!key_L){//only START //Recently played	
+					play_re = 0;	
+reshow_recent_play:		
+					play_re=show_recently_play(play_re);
 					if(play_re==0xBB){
 						goto refind_file;//KEY B
 					}
