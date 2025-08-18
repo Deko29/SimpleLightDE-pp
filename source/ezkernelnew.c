@@ -323,16 +323,13 @@ void update_extra_menu(int MENU_line, u8 reverse) {
 
 u8 check_recent_boot_option(char **pfilename, u8 **recent_entry, u32 *is_EMU, PAGE_NUM *page_num, u32 *file_select, u32 *show_offset, TCHAR **currentpath) {
 	TCHAR currentpath_temp[MAX_path_len];
+	TCHAR pfilename_temp_s[512];
 	
 	// Check if NOR Game was found
 	*pfilename = *recent_entry;
 
 	if (!strncmp("/NOR/", *pfilename, strlen("/NOR/"))) {
-		size_t pfile_length = strlen(*pfilename);
-		char *pfilename_tmp = malloc(pfile_length);
-		if (pfilename_tmp == NULL) {
-			return 1;
-		}
+		char *pfilename_tmp = (char *) pfilename_temp_s;
 
 		strcpy(pfilename_tmp, *pfilename);
 
@@ -2610,6 +2607,14 @@ int main(void) {
 		{
 			if (game_total_NOR == 0) goto skip_autoboot;
 			page_num = NOR_list;
+
+			// NOR IDs stored as part of filename -> possible because Nor Games are stored as LIFO Stack
+			char index_buffer[4 + strlen("/NOR/")];
+			snprintf(index_buffer, 4 + strlen("/NOR/"), "/NOR/%d", show_offset + file_select);
+			TCHAR *pfilename = pNorFS[show_offset + file_select].filename;
+			
+			Make_recently_play_file(index_buffer, pfilename, 0);	
+
 			Boot_NOR_game(0, 0, 0);
 			// if booting for whatever reason failes, skip the autoboot
 			goto skip_autoboot;
@@ -2639,8 +2644,18 @@ int main(void) {
 						}
 					}
 				}
-
-				return Boot_SD_game(pfilename, 0, is_EMU, 0, 0);
+				if (page_num == NOR_list) {
+					// NOR IDs stored as part of filename -> possible because Nor Games are stored as LIFO Stack
+					char index_buffer[4 + strlen("/NOR/")];
+					snprintf(index_buffer, 4 + strlen("/NOR/"), "/NOR/%d", show_offset + file_select);
+					TCHAR *pfilename = pNorFS[show_offset + file_select].filename;
+					
+					Make_recently_play_file(index_buffer, pfilename, 0);
+					Boot_NOR_game(show_offset, file_select, 0);
+				}
+				else {
+					return Boot_SD_game(pfilename, 0, is_EMU, 0, 0);
+				}
 			}
 		}
 	}
