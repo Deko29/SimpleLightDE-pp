@@ -1,6 +1,6 @@
 ###### FORKED FROM https://github.com/Sterophonick/omega-de-kernel
 
-# SimpleLightDE++ (EZ Flash Omega Definitive Edition)
+# SimpleLightDE++ (EZ Flash Omega DE)
 ###### *If you're looking for SimpleLight++ for the **original** EZ Flash Omega, check here: https://github.com/Deko29/SimpleLight-pp*
 
 This is SimpleLightDE++, a small Fork of the SimpleLightDE CFW aimed to introduce new QoL features and to fix various bugs.
@@ -160,3 +160,4 @@ Sterophonick - SIMPLE theme for EZO & EZODE\
 fluBBa - SMSAdvance, MSXAdvance, Cologne for GBA, Goomba for GBA (Original), PCEAdvance, PocketNES, SNESAdvance, Wasabi, NGPAdvance, SwanAdvance\
 [Jaga](https://github.com/EvilJagaGenius) - [Jaga's Goomba Color fork](https://github.com/EvilJagaGenius/jagoombacolor)\
 ...and others!
+
