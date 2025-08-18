@@ -679,7 +679,17 @@ void Backup_savefile(const char* filename)
 	strncpy(temp_filename + temp_filename_length, filename, sizeof(temp_filename) - temp_filename_length - 2);
 	temp_filename_length = strlen(temp_filename);
 
-	f_mkdir(backup_dir);
+	if (gl_operation_type) {
+		FRESULT res = f_mkdir("/BACKUP");
+		if (res != FR_OK && res != FR_EXIST) {
+			return;
+		}
+		res = f_mkdir(backup_dir);
+		if (res != FR_OK && res != FR_EXIST) {
+			return;
+		}
+	}
+	
 	strncpy(temp_filename_dst, temp_filename, sizeof(temp_filename_dst));
 
 	for (s8 i = 3; i >= 0; --i)
