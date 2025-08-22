@@ -27,7 +27,7 @@ Huge thank you to all authors of the original FW and the SimpleLightDE CFW, with
 
 ## Notes
 * DO NOT alter the "RECENT.TXT" file! This is used for the "LAST" boot option and can otherwise lead to undefined behaviour
-* DO NOT create a folder/file called "NOR" on root level! This is only checked when having OPERATION_TYPE set to SAFE because of performance reasons and can otherwise lead to undefined behaviour
+* DO NOT create a folder/file called "NOR" on root level! The card should throw an error and lifelock itself, but still, don't do this!
 
 If you have any feature requests or issues, please let me know :)
 

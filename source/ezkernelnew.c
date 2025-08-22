@@ -31,6 +31,7 @@
 #include "dark/HELP.h"
 #include "dark/RECENTLY.h"
 #include "dark/MENU.h"
+#include "dark/MENU_small.h"
 #include "dark/icon_chip.h"
 #else
 #include "light/SD.h"
@@ -134,7 +135,6 @@ u16 gl_rts_on;
 u16 gl_sleep_on;
 u16 gl_cheat_on;
 u16 gl_boot_option;
-u16 gl_operation_type;
 
 
 u16 gl_auto_save_sel;
@@ -315,9 +315,6 @@ void update_extra_menu(int MENU_line, u8 reverse) {
 	}
 	else if (MENU_line == 4) {
 		gl_toggle_bold = !gl_toggle_bold;
-	}
-	else if (MENU_line == 5) {
-		gl_operation_type = !gl_operation_type;
 	}
 }
 
@@ -679,16 +676,15 @@ void Backup_savefile(const char* filename)
 	strncpy(temp_filename + temp_filename_length, filename, sizeof(temp_filename) - temp_filename_length - 2);
 	temp_filename_length = strlen(temp_filename);
 
-	if (gl_operation_type) {
-		FRESULT res = f_mkdir("/BACKUP");
-		if (res != FR_OK && res != FR_EXIST) {
-			return;
-		}
-		res = f_mkdir(backup_dir);
-		if (res != FR_OK && res != FR_EXIST) {
-			return;
-		}
+	FRESULT res = f_mkdir("/BACKUP");
+	if (res != FR_OK && res != FR_EXIST) {
+		return;
 	}
+	res = f_mkdir(backup_dir);
+	if (res != FR_OK && res != FR_EXIST) {
+		return;
+	}
+
 	
 	strncpy(temp_filename_dst, temp_filename, sizeof(temp_filename_dst));
 
@@ -1454,11 +1450,11 @@ u32 Check_game_RTS_FAT(TCHAR *filename,u32 game_save_rts)
 void Show_Extra_Menu(u32 menu_select, u8 delete)
 {
 	int line;
-	u32 y_offset = 30;
+	u32 y_offset = 44;
 	u16 name_color;
 	char msg[30];
 	u32 linemax;
-	linemax = 6;
+	linemax = 5;
 	for (line = 0; line < linemax; line++) {
 		if (delete) {
 			name_color = gl_color_MENU_btn;
@@ -1475,9 +1471,7 @@ void Show_Extra_Menu(u32 menu_select, u8 delete)
 
 void Show_MENU_close()
 {
-	char msg[30];
-	sprintf(msg, "%s", gl_menu_close);
-	DrawHZText12(msg, 0, 60, 118, gl_color_text, 1);
+	DrawHZText12(gl_menu_close, 0, 36 + 84 - 3 * strlen(gl_menu_close), 118, gl_color_text, 1);
 }
 
 //---------------------------------------------------------------------------------
@@ -1893,13 +1887,6 @@ void CheckSwitch(void)
    		gl_emu_exited = 0x0;
   	}
 
-	gl_operation_type = Read_SET_info(assress_operation_type);
-  	if( (gl_operation_type != 0x0) && (gl_operation_type != 0x1))
-  	{
-		// default to FAST option
-   		gl_operation_type = 0x1;
-  	}
-
 	u16 led_status = (gl_led_open_sel<<7) | (gl_Breathing_R<<5) | (gl_Breathing_G<<4) | (gl_Breathing_B<<3) | (gl_SD_R<<2) | (gl_SD_G<<1) | (gl_SD_B) ;
 	Set_LED_control(led_status);
 }
@@ -2180,7 +2167,6 @@ void save_set_info_SELECT(void)
 	SET_info_buffer[assress_toggle_backup]  = gl_toggle_backup;
 	SET_info_buffer[assress_boot_option]    = gl_boot_option;
 	SET_info_buffer[assress_emu_exited]     = gl_emu_exited;
-	SET_info_buffer[assress_operation_type] = gl_operation_type;
 	SET_info_buffer[assress_toggle_bold]    = gl_toggle_bold;
 	
 	//save to nor 
@@ -2449,29 +2435,52 @@ void Check_save_flag(void)
 			{
 				((u16*)SAV_info_buffer)[loopwrite] = Read_sav_info(loopwrite+2);
 			}				
-			DrawPic((u16*)gImage_MENU, 36, 25, 168, 110, 1, 0, 1);//show menu pic		
+			DrawPic((u16*)gImage_MENU_small, 36, 25, 168, 60, 1, 0, 1);//show menu pic		
+			DrawPic((u16*)gImage_MENU_small, 36, 90, 168, 60, 1, 0, 1);//show menu pic	
+			
+			
+			DrawHZText12("Note",0,36 + 84 - 12,93, RGB(31, 0, 0),1);
+			DrawHZText12("Hold L to boot to",0,36 + 84 - 17 * 3,112, RGB(31, 0, 0),1);
+			if (gl_boot_option) {
+				DrawHZText12("EZ-MENU",0,36 + 84 - 21,131, RGB(31, 0, 0),1);		
+			}
+			else {
+				DrawHZText12("NOR-GAME",0,36 + 84 - 24,131, RGB(31, 0, 0),1);
+			}
+		
 			
 
-			DrawHZText12(gl_save_sav,0,47,28,gl_color_text,1);//use sure?gl_LSTART_help
-			DrawHZText12((TCHAR *)SAV_info_buffer,   20,47,40,gl_color_text,1);//file name
-			DrawHZText12((TCHAR *)SAV_info_buffer+20,20,47,52,gl_color_text,1);//file name
-			DrawHZText12((TCHAR *)SAV_info_buffer+40,20,47,64,gl_color_text,1);//file name
+			DrawHZText12(gl_save_sav,0,36 + 84 - 3 * strlen(gl_save_sav),28,gl_color_text,1);//use sure?gl_LSTART_help
+			DrawHZText12((TCHAR *)SAV_info_buffer,   20,60,40,gl_color_text,1);//file name
+			DrawHZText12((TCHAR *)SAV_info_buffer+20,20,60,52,gl_color_text,1);//file name
+			//DrawHZText12((TCHAR *)SAV_info_buffer+40,20,47,64,gl_color_text,1);//file name
 			//DrawHZText12(gl_formatnor_info,5,60,90,gl_color_text,1);//use sure?
 			
 			if(gl_auto_save_sel){
-					DrawHZText12(gl_save_ing,0,47,88,gl_color_text,1);//use sure?gl_LSTART_help
+					DrawHZText12(gl_save_ing,0,36 + 84 - 3 * strlen(gl_save_ing),68,gl_color_text,1);//use sure?gl_LSTART_help
 					f_mkdir(SAVER_FOLDER);//"/SAVER"
 					f_chdir(SAVER_FOLDER); 
 					Save_savefile((TCHAR *)SAV_info_buffer,savefilesize);			
 			}
 			else{
-				Show_MENU_btn();
+				char msg[30];
+				Clear(60,68-1,55,14,gl_color_MENU_btn,1);
+				Clear(125,68-1,55,14,gl_color_MENU_btn,1);
+				sprintf(msg,"%s",gl_menu_btn);
+				DrawHZText12(msg,0,60,68, gl_color_text,1);
 				while(1){
 					VBlankIntrWait();
 					scanKeys();
 					u16 keysdown  = keysDown();
 					if (keysdown & KEY_A) {
-						DrawHZText12(gl_save_ing,0,60,88,gl_color_text,1);//use sure?gl_LSTART_help
+#ifdef	DARK
+						Clear(60,68-1,55,14,  RGB(0, 3, 5), 1);
+						Clear(125,68-1,55,14, RGB(0, 3, 5), 1);
+#else
+						Clear(60,68-1,55,14,  RGB(31, 31, 15), 1);
+						Clear(125,68-1,55,14, RGB(31, 31, 15), 1);
+#endif						
+						DrawHZText12(gl_save_ing,0,36 + 84 - 3 * strlen(gl_save_ing),68,gl_color_text,1);//use sure?gl_LSTART_help
 						f_mkdir(SAVER_FOLDER);
 						f_chdir(SAVER_FOLDER);
 						Save_savefile((TCHAR *)SAV_info_buffer,savefilesize);
@@ -2595,16 +2604,15 @@ int main(void) {
 	gl_norOffset = 0x000000;
 	game_total_NOR = GetFileListFromNor();//initialize to prevent direct writes to NOR without page turning
 
-	if(gl_operation_type) {
-		FILINFO fno;
-		res = f_stat("/NOR", &fno);
-		if (res == FR_OK || res != FR_NO_FILE) {
-			Show_error_num(8);
-			while(1) {
-				VBlankIntrWait();
-			}
+	FILINFO fno;
+	res = f_stat("/NOR", &fno);
+	if (res == FR_OK || res != FR_NO_FILE) {
+		Show_error_num(8);
+		while(1) {
+			VBlankIntrWait();
 		}
 	}
+	
 
 	key_L |= keysDownRepeat() & KEY_L || keysDown() & KEY_L;
 
@@ -2646,15 +2654,14 @@ int main(void) {
 				if (check_recent_boot_option(&pfilename, &most_recent_entry, &is_EMU, &page_num, &file_select, &show_offset, &curr_path)) {
 					goto skip_autoboot;
 				}
-				if (gl_operation_type) {
-					if (page_num == SD_list) {
-						FILINFO fno;
-						// If file does not exist, then do not attempt to autoboot
-						if (f_stat(most_recent_entry, &fno) != FR_OK) {
-							goto skip_autoboot;
-						}
+				if (page_num == SD_list) {
+					FILINFO fno;
+					// If file does not exist, then do not attempt to autoboot
+					if (f_stat(most_recent_entry, &fno) != FR_OK) {
+						goto skip_autoboot;
 					}
 				}
+				
 				if (page_num == NOR_list) {
 					// NOR IDs stored as part of filename -> possible because Nor Games are stored as LIFO Stack
 					char index_buffer[4 + strlen("/NOR/")];
@@ -3020,7 +3027,7 @@ re_showfile:
 				u8 MENU_line = 0;
 				u8 re_menu = 1;
 				u8 change = 1;
-				u8 MENU_max = 5;
+				u8 MENU_max = 4;
 				u16 name_color = 0;
 
 				while (1)
@@ -3037,47 +3044,43 @@ re_showfile:
 						Show_Extra_Menu(MENU_line, 0);
 						Show_MENU_close();
 
+						DrawHZText12("Extra Settings", 32, 36 + 84 - 3 * 14, 30, gl_color_selected, 1);
+
 						name_color = MENU_line == 0 ? gl_color_selected : gl_color_text;
 						switch (gl_boot_option) {
 							case (1):
-								DrawHZText12("(NOR)", 32, 42 + (6 * 20), 30, name_color, 1);
+								DrawHZText12("(NOR)", 32, 42 + (6 * 20), 44, name_color, 1);
 								break;
 							case (2):
-								DrawHZText12("(LAST)", 32, 42 + (6 * 20), 30, name_color, 1);
+								DrawHZText12("(LAST)", 32, 42 + (6 * 20), 44, name_color, 1);
 								break;							
 							default:
-								DrawHZText12("(MENU)", 32, 42 + (6 * 20), 30, name_color, 1);
+								DrawHZText12("(MENU)", 32, 42 + (6 * 20), 44, name_color, 1);
 								break;	
 						}
 
 						name_color = MENU_line == 1 ? gl_color_selected : gl_color_text;
 						if (gl_show_Thumbnail)
-							DrawHZText12("(ON)", 32, 42 + (6 * 20), 44, name_color, 1);
-						else
-							DrawHZText12("(OFF)", 32, 42 + (6 * 20), 44, name_color, 1);
-
-						name_color = MENU_line == 2 ? gl_color_selected : gl_color_text;
-						if (gl_toggle_reset)
 							DrawHZText12("(ON)", 32, 42 + (6 * 20), 58, name_color, 1);
 						else
 							DrawHZText12("(OFF)", 32, 42 + (6 * 20), 58, name_color, 1);
 
-						name_color = MENU_line == 3 ? gl_color_selected : gl_color_text;
-						if (gl_toggle_backup)
+						name_color = MENU_line == 2 ? gl_color_selected : gl_color_text;
+						if (gl_toggle_reset)
 							DrawHZText12("(ON)", 32, 42 + (6 * 20), 72, name_color, 1);
 						else
 							DrawHZText12("(OFF)", 32, 42 + (6 * 20), 72, name_color, 1);
-						name_color = MENU_line == 4 ? gl_color_selected : gl_color_text;
-						if (gl_toggle_bold)
+
+						name_color = MENU_line == 3 ? gl_color_selected : gl_color_text;
+						if (gl_toggle_backup)
 							DrawHZText12("(ON)", 32, 42 + (6 * 20), 86, name_color, 1);
 						else
 							DrawHZText12("(OFF)", 32, 42 + (6 * 20), 86, name_color, 1);
-
-						name_color = MENU_line == 5 ? gl_color_selected : gl_color_text;
-						if (gl_operation_type)
-							DrawHZText12("(SAFE)", 32, 42 + (6 * 20), 100, name_color, 1);
+						name_color = MENU_line == 4 ? gl_color_selected : gl_color_text;
+						if (gl_toggle_bold)
+							DrawHZText12("(ON)", 32, 42 + (6 * 20), 100, name_color, 1);
 						else
-							DrawHZText12("(FAST)", 32, 42 + (6 * 20), 100, name_color, 1);
+							DrawHZText12("(OFF)", 32, 42 + (6 * 20), 100, name_color, 1);
 
 					}
 

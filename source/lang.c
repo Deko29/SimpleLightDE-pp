@@ -161,7 +161,7 @@ const char zh_set_btn[]="����";
 const char zh_ok_btn[]="����";
 const char zh_formatnor_info[]="ȷ��?��Լ4����";
 
-const char zh_theme_credit[]="Simple���� v1.51.2";
+const char zh_theme_credit[]="SimpleLightDE++ v1.51.3";
 const char zh_theme_credit2[]="by Atapi/Sterophonick";
 const char zh_theme_credit3[]="Fork by: Deko";
 
@@ -252,13 +252,12 @@ const char *zh_nor_op[5]={
 	"���ش浵��FRAM",
 	"����FRAM�浵",
 };
-const char *zh_more_options[6]={
+const char *zh_more_options[5]={
 	"Boot Option",
 	"Toggle thumbnail",
 	"Use BIOS intro",
 	"Backup saves",
-	"Toggle bold",
-	"Operation Type"
+	"Toggle bold"
 	//Start Random Game
 };
 
@@ -301,7 +300,7 @@ const char en_ok_btn[]=" OK";
 const char en_formatnor_info1[]="Are you sure?";
 const char en_formatnor_info2[]="This will take a while.";
 
-const char en_theme_credit[]="SimpleDE v1.51.2 by";
+const char en_theme_credit[]="SimpleLightDE++ v1.51.3 by";
 const char en_theme_credit2[]="Atapi/Sterophonick.";
 const char en_theme_credit3[]="Fork by: Deko";
 
@@ -326,7 +325,7 @@ const char en_use_engine[]="Fast Patch Engine";
 const char en_recently_play[]="Recently Played";
 
 const char en_START_help[]="Open recently played list";
-const char en_SELECT_help[]="More options";
+const char en_SELECT_help[]="Open Extra Settings";
 const char en_L_A_help[]="Invert cold start option";
 const char en_LSTART_help[]="Delete file";
 const char en_LSELECT_help[]="Delete save file";
@@ -392,13 +391,12 @@ const char *en_nor_op[5]={
 	"Load save data",
 	"Save save data",
 };
-const char *en_more_options[6]={
+const char *en_more_options[5]={
 	"Boot Option",
 	"Toggle thumbnail",
 	"Use BIOS intro",
 	"Backup saves",
-	"Toggle bold",
-	"Operation Type"
+	"Toggle bold"
 	//Start Random Game
 };
 

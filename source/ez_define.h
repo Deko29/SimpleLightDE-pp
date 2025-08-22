@@ -79,8 +79,7 @@
 #define assress_toggle_backup 24
 #define assress_boot_option 25
 #define assress_emu_exited 26
-#define assress_operation_type 27
-#define assress_toggle_bold 28
+#define assress_toggle_bold 27
 
 #define assress_saveMODE 64
 #define assress_max 65
@@ -107,6 +106,7 @@ extern const unsigned char gImage_Chinese_manual[9800]__attribute__((aligned(4))
 extern const unsigned char gImage_HELP[76800]__attribute__((aligned(4)));
 extern const unsigned char gImage_icons[1344]__attribute__((aligned(4)));
 extern const unsigned char gImage_MENU[36960]__attribute__((aligned(4)));
+extern const unsigned char gImage_MENU_small[20160] __attribute__((aligned(4)));
 extern const unsigned char gImage_NOR[76800]__attribute__((aligned(4)));
 extern const unsigned char gImage_RECENTLY[76800]__attribute__((aligned(4)));
 extern const unsigned char gImage_SD[76800]__attribute__((aligned(4)));
